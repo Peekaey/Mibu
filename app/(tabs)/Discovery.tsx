@@ -3,13 +3,15 @@ import * as React from "react";
 
 
 import DiscoveryGrid from "../components/Discovery/DiscoveryGrid";
-import {trendingAnimeQuery} from "../api/Discovery/queries/CurrentlyTrendingAnime";
-import {PopularAnimeThisSeasonQuery} from "../api/Discovery/queries/PopularAnimeThisSeason";
-import {UpcomingAnimeNextSeasonQuery} from "../api/Discovery/queries/UpcomingAnimeNextSeason";
-import {AllTimePopularAnimeQuery} from "../api/Discovery/queries/AllTimePopularAnime";
-import {trendingMangaQuery} from "../api/Discovery/queries/CurrentlyTrendingManga";
-import {AllTimePopularMangaQuery} from "../api/Discovery/queries/AllTimePopularManga";
-import {PopularManhwaQuery} from "../api/Discovery/queries/PopularManhwa";
+import {
+    AllTimePopularAnimeQuery,
+    AllTimePopularMangaQuery,
+    PopularAnimeThisSeasonQuery,
+    PopularManhwaQuery,
+    trendingAnimeQuery,
+    trendingMangaQuery,
+    UpcomingAnimeNextSeasonQuery
+} from "../api/queries/DiscoveryQueries";
 
 import {useState} from "react";
 

@@ -15,6 +15,9 @@ const CustomAvatar: React.FC<CustomAvatarProps> = ({ size = 50, imageSource }) =
         // navigation.navigate('screens/Profile/ProfilePopup');
     };
 
+    // Check if UserIsLogged In
+
+
     if (imageSource === null || imageSource === undefined) {
         imageSource = require('../../assets/images/userAvatar.png');
     }

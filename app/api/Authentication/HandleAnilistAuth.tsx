@@ -11,6 +11,8 @@ import {authorisation_endpoint} from "./AnilistAPIClientIdentifiers";
 // import {ObtainAccessToken} from "./HandleAuthorisationCode";
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
+import {GetCurrentUser} from "../AnilistHelpers/UserHelpers";
+import {SaveCurrentUser} from "../AnilistHelpers/UserHelpers";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -32,7 +34,7 @@ export default function HandleAnilistAuthButton() {
 
                     var AuthorisationCode = result.url.split('code=')[1];
 
-                    ObtainAccessToken(AuthorisationCode, redirectUri, client_id, client_secret)
+                    GetSaveAccessToken(AuthorisationCode, redirectUri, client_id, client_secret)
                         .then(success => {
                             console.log('Access token obtained:', success);
                         })
@@ -51,7 +53,7 @@ export default function HandleAnilistAuthButton() {
 
                     var AuthorisationCode = result.url.split('code=')[1];
 
-                    ObtainAccessToken(AuthorisationCode, redirectUri, client_id, client_secret)
+                    GetSaveAccessToken(AuthorisationCode, redirectUri, client_id, client_secret)
                         .then(success => {
                             console.log('Access token obtained:', success);
                         })
@@ -78,7 +80,7 @@ export default function HandleAnilistAuthButton() {
     );
 }
 
-export function ObtainAccessToken(AuthorisationCode: string, redirectUri: string, client_id: string, client_secret: string): Promise<boolean> {
+export function GetSaveAccessToken(AuthorisationCode: string, redirectUri: string, client_id: string, client_secret: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
         var authorisationRequest = {
             url: 'https://anilist.co/api/v2/oauth/token',
@@ -98,11 +100,15 @@ export function ObtainAccessToken(AuthorisationCode: string, redirectUri: string
 
         axios(authorisationRequest)
             .then(response => {
-                console.log('Access token:', response.data.access_token);
-                console.log('Token type:', response.data.token_type);
-                console.log('Expires in:', response.data.expires_in);
+                // console.log('Access token:', response.data.access_token);
+                // console.log('Token type:', response.data.token_type);
+                // console.log('Expires in:', response.data.expires_in);
+                // console.log("Something", response)
                 SecureStore.setItemAsync('access_token', response.data.access_token);
+                SecureStore.setItemAsync('refresh_token', response.data.refresh_token);
+                SecureStore.setItemAsync('expires_in', response.data.expires_in);
                 SecureStore.setItemAsync('isUserLoggedIn', 'true');
+                GetCurrentUser().then(user => SaveCurrentUser(user))
                 resolve(true);
             })
             .catch(error => {
