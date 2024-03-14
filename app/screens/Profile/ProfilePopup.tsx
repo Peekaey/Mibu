@@ -7,6 +7,8 @@ import {Link, router} from "expo-router";
 import {StatusBar} from "expo-status-bar";
 import HandleAnilistAuth from "../../api/Authentication/HandleAnilistAuth";
 import HandleAnilistAuthButton from "../../api/Authentication/HandleAnilistAuth";
+import {Logout} from "../../api/AnilistHelpers/UserHelpers";
+import LogoutButton from "../../components/Profile/Logout";
 
 
 
@@ -81,6 +83,7 @@ export default function ProfilePopup() {
             </View>
             <ToggleLockScreen label="Require Authentication On Launch" isSwitchOn={isLockScreenOn} onToggleSwitch={handleToggleSwitch} />
             <HandleAnilistAuthButton/>
+            <LogoutButton/>
         </View>
     );
 }
