@@ -1,5 +1,6 @@
 # Mibu
 
+Open source cross platform mobile app for Anilist build with React Native
 
 ### Instructions for install
 1. Clone repo
