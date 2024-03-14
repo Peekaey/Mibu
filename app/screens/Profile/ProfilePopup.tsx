@@ -5,7 +5,8 @@ import * as SecureStore from 'expo-secure-store';
 import {ToggleLockScreen} from "../../helpers/BiometricAuthenticationHelper";
 import {Link, router} from "expo-router";
 import {StatusBar} from "expo-status-bar";
-
+import HandleAnilistAuth from "../../api/Authentication/HandleAnilistAuth";
+import HandleAnilistAuthButton from "../../api/Authentication/HandleAnilistAuth";
 
 
 
@@ -78,8 +79,8 @@ export default function ProfilePopup() {
                 </TouchableOpacity>
                 <Text style={{ flex: 1, textAlign: 'center', fontSize: 20, marginRight: 32 }}>Settings</Text>
             </View>
-
             <ToggleLockScreen label="Require Authentication On Launch" isSwitchOn={isLockScreenOn} onToggleSwitch={handleToggleSwitch} />
+            <HandleAnilistAuthButton/>
         </View>
     );
 }

@@ -31,7 +31,7 @@ export default function Discovery() {
     };
 
     return (
-        <View style={{flex: 1}}>
+        <View style={{flex: 1 ,backgroundColor: 'white'}}>
             <ScrollView  refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
                 <Text style={{textAlign: 'left', marginVertical: 10, marginLeft: 5}}>Now Trending Anime</Text>
                 <DiscoveryGrid GraphQLQuery={trendingAnimeQuery}/>

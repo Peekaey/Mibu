@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Image, StyleSheet, ImageSourcePropType, TouchableOpacity} from 'react-native';
 import  userAvatar  from '../../assets/images/userAvatar.png';
-import {useNavigation} from "@react-navigation/native";
+import {Redirect, router} from "expo-router";
 interface CustomAvatarProps {
     size?: number;
     imageSource?: ImageSourcePropType | null;
@@ -9,10 +9,10 @@ interface CustomAvatarProps {
 
 const CustomAvatar: React.FC<CustomAvatarProps> = ({ size = 50, imageSource }) => {
 
-    const navigation = useNavigation();
     const handlePress = () => {
         // Navigate to the desired route, e.g., 'ProfilePopup'
-        navigation.navigate('screens/Profile/ProfilePopup');
+        router.navigate('screens/Profile/ProfilePopup');
+        // navigation.navigate('screens/Profile/ProfilePopup');
     };
 
     if (imageSource === null || imageSource === undefined) {
