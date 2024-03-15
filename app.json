@@ -5,7 +5,6 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./app/assets/icons/icon.png",
-    "userInterfaceStyle": "light",
     "scheme": "mibu-app",
     "splash": {
       "image": "./app/assets/icons/splash.png",

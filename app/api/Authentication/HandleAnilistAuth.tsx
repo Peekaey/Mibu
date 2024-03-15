@@ -21,13 +21,11 @@ export default function HandleAnilistAuthButton() {
 
         const redirectUri = AuthSession.makeRedirectUri({
             scheme: 'mibu-app',
-            path: 'redirect',
+            path: 'Feed',
         });
         const authUrl = `${authorisation_endpoint}?client_id=${client_id}&redirect_uri=${redirectUri}&response_type=${grant_type}`;
 
         try {
-            if (Platform.OS === 'ios') {
-
                 const result = await WebBrowser.openAuthSessionAsync(authUrl, redirectUri);
 
                 if (result.type === 'success' && result.url) {
@@ -37,36 +35,19 @@ export default function HandleAnilistAuthButton() {
                     GetSaveAccessToken(AuthorisationCode, redirectUri, client_id, client_secret)
                         .then(success => {
                             console.log('Access token obtained:', success);
+                            router.navigate('Feed');
                         })
                         .catch(error => {
                             console.error('Error obtaining access token:', error);
                         });
+
+                    if (Platform.OS === 'android') {
+
+                    }
 
                 } else {
                     console.error('Error opening browser or user canceled the authentication. IOS Handler:', result);
                 }
-            } else if (Platform.OS === 'android') {
-
-                const result = await WebBrowser.openAuthSessionAsync(authUrl, redirectUri);
-
-                if (result.type === 'success' && result.url) {
-
-                    var AuthorisationCode = result.url.split('code=')[1];
-
-                    GetSaveAccessToken(AuthorisationCode, redirectUri, client_id, client_secret)
-                        .then(success => {
-                            console.log('Access token obtained:', success);
-                        })
-                        .catch(error => {
-                            console.error('Error obtaining access token:', error);
-                        });
-
-                    router.navigate('screens/Profile/ProfilePopup');
-
-                } else {
-                    console.error('Error opening browser or user canceled the authentication. Android Handler:', result);
-                }
-            }
         } catch (error) {
             console.error('Error:', error);
         }
@@ -74,8 +55,8 @@ export default function HandleAnilistAuthButton() {
     };
 
     return (
-        <View style={{ alignItems: 'center', padding: 10, borderRadius: 12, backgroundColor: '#F5AC96', marginTop: 20 }}>
-            <Text onPress={handleLoginPress}>Login to Anilist</Text>
+        <View style={{ alignItems: 'center', padding: 10, borderRadius: 12, backgroundColor: 'white', marginTop: 20 , width: '75%'}}>
+            <Text onPress={handleLoginPress} style={{color:'black'}}>Sign in with Anilist</Text>
         </View>
     );
 }
@@ -106,8 +87,8 @@ export function GetSaveAccessToken(AuthorisationCode: string, redirectUri: strin
                 // console.log("Something", response)
                 SecureStore.setItemAsync('access_token', response.data.access_token);
                 SecureStore.setItemAsync('refresh_token', response.data.refresh_token);
-                SecureStore.setItemAsync('expires_in', response.data.expires_in);
-                SecureStore.setItemAsync('isUserLoggedIn', 'true');
+                SecureStore.setItemAsync('expires_in', response.data.expires_in.toString());
+                // SecureStore.setItemAsync('isUserLoggedIn', 'true');
                 GetCurrentUser().then(user => SaveCurrentUser(user))
                 resolve(true);
             })

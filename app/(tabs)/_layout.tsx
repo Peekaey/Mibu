@@ -12,7 +12,7 @@ export default function TabLayout() {
               screenOptions={{ tabBarActiveTintColor: '#e91e63', headerTitle:"",
                   headerRight: () => (
                       <View style={{ flexDirection: 'row' }}>
-                          <CustomAvatar size={50} imageSource={null}/>
+                          <CustomAvatar size={50}/>
                       </View>
                   )}}  >
             <Tabs.Screen

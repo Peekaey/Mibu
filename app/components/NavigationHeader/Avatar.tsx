@@ -1,13 +1,25 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Image, StyleSheet, ImageSourcePropType, TouchableOpacity} from 'react-native';
 import  userAvatar  from '../../assets/images/userAvatar.png';
 import {Redirect, router} from "expo-router";
+import * as SecureStore from "expo-secure-store";
+
+
 interface CustomAvatarProps {
     size?: number;
-    imageSource?: ImageSourcePropType | null;
 }
 
-const CustomAvatar: React.FC<CustomAvatarProps> = ({ size = 50, imageSource }) => {
+const CustomAvatar: React.FC<CustomAvatarProps> = ({ size = 50 }) => {
+    const [AvatarImageSource, setImageSource] = useState<ImageSourcePropType | null>(null);
+
+    useEffect(() => {
+        const fetchAvatar = async () => {
+            const avatar = await GetUserAvatar();
+            setImageSource(avatar);
+        };
+
+        fetchAvatar();
+    }, []);
 
     const handlePress = () => {
         // Navigate to the desired route, e.g., 'ProfilePopup'
@@ -15,17 +27,10 @@ const CustomAvatar: React.FC<CustomAvatarProps> = ({ size = 50, imageSource }) =
         // navigation.navigate('screens/Profile/ProfilePopup');
     };
 
-    // Check if UserIsLogged In
-
-
-    if (imageSource === null || imageSource === undefined) {
-        imageSource = require('../../assets/images/userAvatar.png');
-    }
-
     return (
         <View style={[styles.container, { width: size, height: size }]}>
             <TouchableOpacity onPress={handlePress}>
-            {imageSource && <Image source={imageSource} style={styles.image} />}
+                {AvatarImageSource && <Image source={AvatarImageSource} style={styles.image} />}
             </TouchableOpacity>
         </View>
     );
@@ -45,3 +50,17 @@ const styles = StyleSheet.create({
 });
 
 export default CustomAvatar;
+
+export async function GetUserAvatar(): Promise<ImageSourcePropType | null> {
+    let userAvatarLink = require('../../assets/images/userAvatar.png'); // Assuming this is the default avatar
+    try {
+        const userAvatar = await SecureStore.getItemAsync('userAvatarLink');
+        console.log('User avatar link:', userAvatar);
+        if (userAvatar) {
+            userAvatarLink = { uri: userAvatar };
+        }
+    } catch (error) {
+        console.error('Error getting user avatar:', error);
+    }
+    return userAvatarLink;
+}
