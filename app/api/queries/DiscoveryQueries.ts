@@ -103,19 +103,70 @@ export const PopularManhwaQuery = `
     } `;
 
 // GraphQL Query for getting top 10 Upcoming Anime next season
-
 export const UpcomingAnimeNextSeasonQuery = `
     query {
         Page(perPage: 10) {
         media(sort: POPULARITY_DESC, type: ANIME, season: SPRING, seasonYear: 2024) {
             id
             title {
-            english
+                romaji
+                english
             }
             coverImage {
-            extraLarge
+                extraLarge
             }
             popularity
         }
         }
     } `;
+
+
+// Get anime data by its anilist Id
+export const GetAnimeById = `
+query ($id: Int) { # Define which variables will be used in the query (id)
+  Media (id: $id, type: ANIME) {
+    id
+    title {
+      romaji
+      english
+      native
+    }
+    type
+    status
+    episodes
+    startDate {
+        year
+        month
+        day
+    }
+    averageScore
+    popularity
+    favourites
+    isAdult
+    description
+    synonyms
+    coverImage {
+        extraLarge
+    }
+  }
+}
+`;
+// Get anime data by its anilist Id
+export const GetAnimeEpisodesById = `
+query ($id: Int) { # Define which variables will be used in the query (id)
+  Media (id: $id, type: ANIME) {
+    id
+    title {
+      romaji
+      english
+      native
+    }
+    streamingEpisodes {
+        title
+        thumbnail
+        url
+        site
+    }
+  }
+}
+`;

@@ -1,7 +1,8 @@
 import React, {useEffect, useRef, useState} from "react";
-import {ActivityIndicator, ScrollView, View} from "react-native";
+import {ScrollView, View} from "react-native";
 import AnilistDiscoveryGridCall from "../../api/Discovery/DiscoveryAPI";
 import DiscoveryItem from "./DiscoveryItem";
+import { ActivityIndicator } from "react-native-paper";
 
 
 
@@ -30,15 +31,16 @@ export default function DiscoveryGrid({ GraphQLQuery }) {
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             {isLoading ? (
-                <ActivityIndicator size="large" color="#0000ff" />
+                <ActivityIndicator size="large" style={{height:100}} color="#0000ff" />
             ) : (
                 <ScrollView horizontal={true} nestedScrollEnabled={true} showsHorizontalScrollIndicator={false}>
                     {apiData && apiData.data && apiData.data.Page && apiData.data.Page.media &&
                         apiData.data.Page.media.map((item, index) => (
                             <DiscoveryItem
+                                Id={item.id}
                                 key={index}
                                 SourceImage={item.coverImage.extraLarge}
-                                Title={item.title && item.title.english ? item.title.english : 'No English title available'}
+                                Title={item.title && item.title.english ? item.title.english : (item.title.romaji??'No title Found') }
                             />
                         ))}
                 </ScrollView>
